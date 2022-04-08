@@ -1,0 +1,21 @@
+/* Card Hovers During Mouse Over */
+.card:hover {
+    transform: scale(1.05);
+    box-shadow: 0 10px 20px rgba(0,0,0,.12), 0 4px 8px rgba(0,0,0,.06);
+}
+/* Highlights Yellow */
+.selected {
+    background: yellow
+}
+/* Transforms text to lowercase */
+.form-case {
+    text-transform: lowercase
+}
+/* Transforms text to capitalize */
+.case-upper {
+    text-transform: capitalize
+}
+/* Card content is uniform with one another */
+.card-content {
+    min-height: 80px;
+}

@@ -1,0 +1,96 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="{{ url_for('static',filename='style.css') }}">
+
+    <!-- Favicon -->
+    <link href="{{ url_for('static', filename='./images/favicon.ico')}}" rel="icon" type="image/x-icon" >
+
+    <title>Movie Recommender</title>
+  </head>
+  <body class="container">
+    <!-- Scatterpoint Image -->
+    <pi>
+      <img class="mt-5 mx-auto d-block" src="{{ image }}" alt="">
+    </pi>
+    <!-- Header -->
+    <div class="col-12 mt-5 text-center">
+        <h3 class="text-uppercase border-bottom mb-4">K-Means Cluster Generated Movie List for {{ query }}</h3>
+    </div>
+    <!-- Form Section -->
+    <div class="input-group">
+      <select class="form-select" id="genre" aria-label="Genre">
+      <!-- Loop through generate_list to generate options for selection -->
+      {% for genre in genre_list %}
+          <option value="{{ genre }}">{{ genre.capitalize() }}</option>
+      {% endfor %}
+      </select>
+      <button class="btn btn-primary btn-lg" id="submitButton" type="button" onclick="search()">Submit</button>
+      <button class="btn btn-warning btn-lg" id="resetButton" type="button" onclick="reset_boxes()">Reset</button>
+    </div>
+    <!-- Card Section -->
+    <div class="mt-4 mb-5">
+      <div class="row row-cols-1 row-cols-md-2 g-4">
+        <!-- Loop through m_list to generate cards -->
+        {% for movie in m_list %}
+          <div class="{{movie.genre.replace(',','')}} {{movie.released_year}} {{movie.director}}">
+            <div class="col">
+              <div class="card border border-dark h-100">
+                <div class="card-body">
+                  <h5 class="card-title case-upper">{{movie.series_title}}</h5>
+                  <p class="card-text card-content">{{movie.overview}}</p>
+                  <a href="http://127.0.0.1:5000/m/{{movie.series_title}}" class="stretched-link">Read More...</a>
+                </div>
+              </div>
+            </div>
+          </div>
+        {% endfor %}
+      </div>
+      <button type="button" class="btn btn-secondary btn-sm mt-2" onclick="history.back(-1)">Try Another Movie</button>
+    </div>
+    <!-- Custom Javascript For HTML Elements-->
+    <script>
+        <!--
+
+        // HTML Element Variables
+        const button = document.getElementById('submitButton')
+        const elements = document.getElementsByClassName('selected');
+
+        // Search Funciton
+        const search = () => {
+            // Retrieves input value
+            const genre= document.getElementById('genre').value;
+            // Retrieve elements with class name genre
+            const selections = document.getElementsByClassName(genre);
+            // Add selected styling to movies selected
+            for(let selection of selections) {
+                selection.classList.add('selected');
+                }
+            // Add disable class
+            button.classList.add('disabled');
+            }
+
+        // Reset selected highlighted boxes
+        const reset_boxes = () => {
+            // Loops through selected elements
+            while(elements.length > 0){
+                // Remove selected class
+                elements[0].classList.remove('selected');
+                }
+            // Remove disable class from submit button
+            button.classList.remove('disabled');
+            }
+
+        //-->
+    </script>
+    <!-- Option 1: Bootstrap Bundle with Popper -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
+  </body>
+</html>
